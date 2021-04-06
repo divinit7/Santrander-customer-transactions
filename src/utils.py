@@ -8,11 +8,12 @@ def get_predictions(loader, model, device):
     true_labels = []
     
     with torch.no_grad():
-        for x,y in loader:
+        for x, y in loader:
+            # print(x.shape)
             x = x.to(device)
             y = y.to(device)
             scores = model(x)
-            saved_preds  += scores.tolist()
+            saved_preds += scores.tolist()
             true_labels += y.tolist()
             
     model.train()
@@ -23,10 +24,12 @@ def get_submission(model , loader, test_ids, device):
     model.eval()
     with torch.no_grad():
         for x, y in loader:
+            # print(x.shape)
             x = x.to(device)
             score = model(x)
             prediction = score.float()
             all_preds += prediction.tolist()
+            
     model.train()
     
     df = pd.DataFrame({
